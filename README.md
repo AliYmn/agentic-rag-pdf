@@ -8,6 +8,14 @@
   Agentic, multimodal question answering for long PDF documents.
 </p>
 
+<p align="center">
+  <a href="docs/architecture.md">Architecture</a>
+  ·
+  <a href="docs/demo.md">CLI Demo</a>
+  ·
+  <a href="docs/demo_output.md">Evaluation</a>
+</p>
+
 Agentic RAG over PDF is a small, inspectable question-answering system for long PDF documents. It combines hybrid retrieval, structural navigation, targeted page rendering, and an independent verification step so that answers can stay grounded in document evidence rather than raw model recall.
 
 The repository is intentionally compact. The goal is not to provide a generic framework, but to show a defensible end-to-end architecture for document-grounded QA with clear traces, citations, and tests.
@@ -26,6 +34,18 @@ The repository is intentionally compact. The goal is not to provide a generic fr
 - [Architecture](docs/architecture.md) — system design, component choices, and trade-offs
 - [CLI demo](docs/demo.md) — representative commands, traces, and screenshots
 - [Evaluation results](docs/demo_output.md) — generated benchmark transcript
+
+## CLI preview
+
+The CLI exposes both human-readable verification details and structured JSON output, including cited pages, confidence, memory usage, and the tool-call trace.
+
+<p align="center">
+  <img src="images/04-json-output.png" alt="Agentic RAG CLI and JSON output" width="760">
+</p>
+
+<p align="center">
+  <sub>Example of an interactive run followed by machine-readable JSON output.</sub>
+</p>
 
 ## Requirements
 
