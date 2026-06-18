@@ -39,5 +39,5 @@ Each case below shows the question, the verified answer, the verifier's judgment
 - **Answer:** Makaleye göre, yapay zekânın bankacılıkta getirdiği kısıt ve zorluklardan biri "veri gizliliği ve güvenliği"dir. Yapay zekâ uygulamaları büyük veri setleri üzerinde çalıştığı için veri ihlalleri ve siber saldırı riskleri artmakta, bu durum da güçlü veri güvenliği politikaları gerektirmektedir [p.11, 12]. Ayrıca, "önyargı ve tarafsızlık" sorunları da yapay zekânın bankacılıkta karşılaştığı diğer zorluklar arasında yer almaktadır [p.12].
 - **Result:** ✅ PASS (expected one of: siber risk, veri gizliliği, veri kalitesi, önyargı, personel)
 - **Verifier:** supported=True, confidence=1.00
-- **Citations:** p.12
+- **Citations:** p.11, p.12
 - **Tools used:** `search`
