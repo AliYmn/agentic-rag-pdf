@@ -23,7 +23,11 @@ from agentic_rag.retrieval.base import RetrievalResult
 
 
 class _FakeRetriever:
+    def __init__(self) -> None:
+        self.last_k: int | None = None
+
     def search(self, query: str, k: int) -> list[RetrievalResult]:
+        self.last_k = k
         chunk = Chunk(
             id="p5-c0",
             text="Yapay zeka bankacılıkta dolandırıcılık tespitinde kullanılır.",
@@ -67,22 +71,44 @@ def mocked_llm(monkeypatch: pytest.MonkeyPatch) -> None:
 
 
 def test_pipeline_runs_end_to_end(rich_pdf: Path, tmp_path: Path, mocked_llm: None) -> None:
+    retriever = _FakeRetriever()
     with PdfDocument.open(rich_pdf) as doc:
         pipeline = Pipeline(
             doc=doc,
-            retriever=_FakeRetriever(),
+            retriever=retriever,
             outline=extract_outline(doc),
             memory=MemoryStore(tmp_path / "mem.jsonl"),
+            retrieval_top_k=2,
         )
         result = pipeline.run("Yapay zeka bankacılıkta nasıl kullanılır?")
 
     assert "dolandırıcılık" in result.answer
     assert result.pages == [5]  # extracted from the [p.5] citation
     assert result.verdict.supported is True
+    assert retriever.last_k == 2
     assert [c.name for c in result.trace] == ["search"]
     assert (tmp_path / "mem.jsonl").exists()
     # recall matches on the stored *question*, so query with overlapping terms
     assert MemoryStore(tmp_path / "mem.jsonl").recall("Yapay zeka bankacılıkta kullanımı")
+
+
+def test_pipeline_does_not_persist_memory_when_disabled(
+    rich_pdf: Path,
+    tmp_path: Path,
+    mocked_llm: None,
+) -> None:
+    memory_path = tmp_path / "mem.jsonl"
+    with PdfDocument.open(rich_pdf) as doc:
+        pipeline = Pipeline(
+            doc=doc,
+            retriever=_FakeRetriever(),
+            outline=extract_outline(doc),
+            memory=MemoryStore(memory_path),
+        )
+        result = pipeline.run("Yapay zeka bankacılıkta nasıl kullanılır?", use_memory=False)
+
+    assert "dolandırıcılık" in result.answer
+    assert not memory_path.exists()
 
 
 def test_from_pdf_handles_image_only_document(image_only_pdf: Path) -> None:

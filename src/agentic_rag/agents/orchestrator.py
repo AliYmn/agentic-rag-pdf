@@ -29,8 +29,20 @@ support it with cited evidence."""
 class Orchestrator:
     """Runs the tool-calling loop for a single question over one document."""
 
-    def __init__(self, doc: PdfDocument, retriever: Retriever, outline: list[OutlineNode]) -> None:
-        self._ctx = ToolContext(doc=doc, retriever=retriever, outline=outline)
+    def __init__(
+        self,
+        doc: PdfDocument,
+        retriever: Retriever | None,
+        outline: list[OutlineNode],
+        *,
+        default_k: int = 6,
+    ) -> None:
+        self._ctx = ToolContext(
+            doc=doc,
+            retriever=retriever,
+            outline=outline,
+            default_k=default_k,
+        )
 
     @property
     def context(self) -> ToolContext:

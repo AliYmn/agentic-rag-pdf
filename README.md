@@ -35,7 +35,8 @@ design decision.
 ```bash
 python3.12 -m venv .venv
 source .venv/bin/activate
-pip install -e ".[dev]"          # or: pip install -r requirements.txt
+pip install -e ".[dev]"          # recommended
+# or: pip install -r requirements-dev.txt
 
 cp .env.example .env             # then edit .env and add your API key
 ```
@@ -95,8 +96,8 @@ affiliation, stated challenges). See `eval/questions.json` to add your own.
 
 ## Tests
 
-24 unit tests run fully offline against the real PDFs in `samples/` (no API keys
-needed):
+The pytest suite runs fully offline against the real PDFs in `samples/` (no API
+keys needed):
 
 ```bash
 pytest -q

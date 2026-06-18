@@ -2,16 +2,12 @@
 
 # 🔍 Set up pre-commit hooks
 pre-commit-install:
-	pre-commit uninstall && \
-	pre-commit install && \
-	pre-commit autoupdate && \
+	pre-commit install --install-hooks && \
 	pre-commit install --hook-type commit-msg -f
 
 # 📦 Install dev dependencies and hooks
-# Note: pre-commit is expected to be installed system-wide via `brew install pre-commit`
 install:
-	command -v pre-commit >/dev/null 2>&1 || brew install pre-commit
-	pip install -r requirements-dev.txt
+	python -m pip install -r requirements-dev.txt
 	$(MAKE) pre-commit-install
 
 # 🧹 Lint and auto-fix

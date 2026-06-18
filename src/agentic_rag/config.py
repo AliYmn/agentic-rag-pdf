@@ -51,9 +51,6 @@ class Settings(BaseSettings):
     openai_model: str = Field(default="gpt-4o", alias="OPENAI_MODEL")
     embedding_model: str = Field(default="text-embedding-3-small", alias="EMBEDDING_MODEL")
 
-    # --- Vector store ---
-    vector_db_path: Path = Field(default=_PROJECT_ROOT / "data" / "vector_store", alias="VECTOR_DB_PATH")
-
     # --- Retrieval tuning ---
     retrieval_top_k: int = Field(default=8, alias="RETRIEVAL_TOP_K")
     rrf_k: int = Field(default=60, alias="RRF_K")

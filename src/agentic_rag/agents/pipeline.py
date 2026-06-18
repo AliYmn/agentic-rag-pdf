@@ -49,11 +49,14 @@ class Pipeline:
         retriever: HybridRetriever | None,
         outline: list[OutlineNode],
         memory: MemoryStore,
+        *,
+        retrieval_top_k: int = 6,
     ) -> None:
         self._doc = doc
         self._retriever = retriever
         self._outline = outline
         self._memory = memory
+        self._retrieval_top_k = retrieval_top_k
 
     @classmethod
     def from_pdf(cls, pdf_path: str | Path, *, settings: Settings | None = None) -> Pipeline:
@@ -66,14 +69,25 @@ class Pipeline:
         retriever = HybridRetriever.from_chunks(chunks) if chunks else None
         outline = extract_outline(doc)
         memory = MemoryStore(settings.memory_path)
-        return cls(doc, retriever, outline, memory)
+        return cls(
+            doc,
+            retriever,
+            outline,
+            memory,
+            retrieval_top_k=settings.retrieval_top_k,
+        )
 
     def run(self, question: str, *, use_memory: bool = True) -> AnswerResult:
         """Answer ``question``: draft with tools, verify, and persist to memory."""
         recalled = self._memory.recall(question) if use_memory else []
         hint = MemoryStore.format_hint(recalled) if recalled else ""
 
-        orchestrator = Orchestrator(self._doc, self._retriever, self._outline)
+        orchestrator = Orchestrator(
+            self._doc,
+            self._retriever,
+            self._outline,
+            default_k=self._retrieval_top_k,
+        )
         draft = orchestrator.answer(question, memory_hint=hint)
 
         evidence = orchestrator.context.evidence_text()
@@ -86,13 +100,14 @@ class Pipeline:
         final_answer = verdict.revised_answer or draft.answer
         pages = self._collect_pages(final_answer, orchestrator)
 
-        self._memory.add(
-            question,
-            final_answer,
-            pages=pages,
-            confidence=verdict.confidence,
-            document=self._doc.path.name,
-        )
+        if use_memory:
+            self._memory.add(
+                question,
+                final_answer,
+                pages=pages,
+                confidence=verdict.confidence,
+                document=self._doc.path.name,
+            )
 
         return AnswerResult(
             question=question,
