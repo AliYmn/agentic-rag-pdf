@@ -216,3 +216,7 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Runtime data (keep sample PDF, ignore generated artifacts)
+data/memory.jsonl
+data/vector_store/

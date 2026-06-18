@@ -1,0 +1,29 @@
+{
+  "pdf": "samples/samples-3.pdf",
+  "cases": [
+    {
+      "question": "Bu makalenin yazarı kimdir?",
+      "expected_any": ["Sultan Sar"],
+      "probes": "text",
+      "note": "Başlık sayfasında: Sultan Sarı."
+    },
+    {
+      "question": "Yazar hangi üniversitede görev yapmaktadır?",
+      "expected_any": ["Ostim"],
+      "probes": "text",
+      "note": "Ostim Teknik Üniversitesi (başlık sayfası)."
+    },
+    {
+      "question": "Makale hangi dergide yayımlanmıştır?",
+      "expected_any": ["Emerging Economies", "JOEEP"],
+      "probes": "text",
+      "note": "Journal of Emerging Economies and Policy (JOEEP), 2024."
+    },
+    {
+      "question": "Makaleye göre yapay zekânın bankacılıkta getirdiği kısıt ve zorluklardan biri nedir?",
+      "expected_any": ["siber risk", "veri gizliliği", "veri kalitesi", "önyargı", "personel"],
+      "probes": "text",
+      "note": "Öz bölümünde sayılan zorluklar: veri gizliliği/güvenliği, siber risk, veri kalitesi, önyargı/tarafsızlık, donanım ve personel eksikliği."
+    }
+  ]
+}
