@@ -94,6 +94,9 @@ python scripts/evaluate.py
 The four cases probe verifiable text facts in `samples-3.pdf` (author, journal,
 affiliation, stated challenges). See `eval/questions.json` to add your own.
 
+Manual CLI screenshots can be documented separately in
+[`docs/cli_demo.md`](docs/cli_demo.md).
+
 ## Tests
 
 The pytest suite runs fully offline against the real PDFs in `samples/` (no API
