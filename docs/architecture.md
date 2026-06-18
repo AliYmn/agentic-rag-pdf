@@ -241,6 +241,14 @@ The project could have asked one model call to answer and self-check in the same
 
 That separation is more defensible because it reduces the chance that the model simply reasserts its own earlier reasoning. It also gives the pipeline a structured verdict that can be surfaced to the user or consumed programmatically.
 
+### 3. A framework-free agent loop instead of LangChain/LlamaIndex
+
+The orchestration loop is written by hand rather than on top of an agent framework. The assignment explicitly accepts a custom framework alongside LangChain and LlamaIndex, and for this MVP the custom loop is the better fit.
+
+It gives direct control over the parts that matter here — trace capture, the iteration cap, attaching rendered page images as follow-up turns, and passing exactly the observed evidence into verification — without hiding them behind framework abstractions. It also keeps the dependency surface small and the system readable end to end, which is the stated design goal.
+
+The trade-off is scope-dependent: a larger system (many retrievers, built-in memory and agent types, streaming, observability integrations) would benefit from the scaffolding a framework provides. At this scope that scaffolding would add dependency weight and hidden behavior without a matching payoff.
+
 ## Conclusion
 
 This repository favors explicit structure over hidden orchestration. The system is not trying to be the most feature-rich RAG stack possible. It is trying to be understandable, testable, and strong enough to show how retrieval, tool use, multimodal inspection, and verification can work together in a compact agentic PDF QA pipeline.

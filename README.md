@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="images/logo.png" alt="Agentic RAG over PDF" width="420">
+  <img src="images/logo.png" alt="Agentic RAG over PDF" width="520">
 </p>
 
 <h1 align="center">Agentic RAG over PDF</h1>
@@ -32,7 +32,7 @@ The repository is intentionally compact. The goal is not to provide a generic fr
 ## Contents
 
 - [Architecture](docs/architecture.md) — system design, component choices, and trade-offs
-- [Technical note](TECHNICAL_NOTE.md) — the two most important design decisions and their rationale
+- [Technical note](TECHNICAL_NOTE.md) — the most important design decisions and their rationale
 - [CLI demo](docs/demo.md) — representative commands, traces, and screenshots
 - [Evaluation results](docs/demo_output.md) — generated benchmark transcript
 
