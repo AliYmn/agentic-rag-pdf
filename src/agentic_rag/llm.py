@@ -8,6 +8,7 @@ calls (the verifier) use :func:`complete_json`.
 from __future__ import annotations
 
 import json
+from functools import cache
 from typing import Any
 
 from openai import OpenAI
@@ -17,16 +18,12 @@ from .config import get_settings
 
 _DEFAULT_MAX_TOKENS = 4000
 
-_client: OpenAI | None = None
 
-
+@cache
 def get_client() -> OpenAI:
     """Return a process-wide cached OpenAI client."""
-    global _client
-    if _client is None:
-        settings = get_settings()
-        _client = OpenAI(api_key=settings.require_openai())
-    return _client
+    settings = get_settings()
+    return OpenAI(api_key=settings.require_openai())
 
 
 def chat(

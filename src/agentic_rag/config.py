@@ -8,6 +8,7 @@ embeddings, so only one API key is required.
 
 from __future__ import annotations
 
+from functools import cache
 from pathlib import Path
 
 from pydantic import Field
@@ -58,13 +59,6 @@ class Settings(BaseSettings):
     # --- Memory ---
     memory_path: Path = Field(default=_PROJECT_ROOT / "data" / "memory.jsonl", alias="MEMORY_PATH")
 
-    # --- App ---
-    log_level: str = Field(default="INFO", alias="LOG_LEVEL")
-
-    @property
-    def project_root(self) -> Path:
-        return _PROJECT_ROOT
-
     def require_openai(self) -> str:
         """Return the OpenAI key or raise a clear, actionable error."""
         if not self.openai_api_key:
@@ -75,12 +69,7 @@ class Settings(BaseSettings):
         return self.openai_api_key
 
 
-_settings: Settings | None = None
-
-
+@cache
 def get_settings() -> Settings:
     """Return a process-wide cached :class:`Settings` instance."""
-    global _settings
-    if _settings is None:
-        _settings = Settings()
-    return _settings
+    return Settings()

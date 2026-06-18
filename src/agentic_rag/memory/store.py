@@ -65,9 +65,8 @@ class MemoryStore:
         if not self._path.exists():
             return []
         records: list[MemoryRecord] = []
-        for line in self._path.read_text(encoding="utf-8").splitlines():
-            line = line.strip()
-            if line:
+        for raw_line in self._path.read_text(encoding="utf-8").splitlines():
+            if line := raw_line.strip():
                 records.append(MemoryRecord(**json.loads(line)))
         return records
 

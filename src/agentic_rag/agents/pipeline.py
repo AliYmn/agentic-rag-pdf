@@ -34,7 +34,6 @@ class AnswerResult:
     question: str
     answer: str
     verdict: Verdict
-    draft_answer: str
     pages: list[int]
     trace: list[ToolCall] = field(default_factory=list)
     used_memory: bool = False
@@ -113,7 +112,6 @@ class Pipeline:
             question=question,
             answer=final_answer,
             verdict=verdict,
-            draft_answer=draft.answer,
             pages=pages,
             trace=draft.trace,
             used_memory=bool(recalled),

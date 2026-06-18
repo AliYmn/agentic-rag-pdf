@@ -4,7 +4,7 @@
 - Generated: 2026-06-18T18:04:31+00:00
 - Accuracy: **100%** (4/4)
 
-Each case below shows the question, the verified answer, the verifier's judgement, the pages cited, and the tools the agent invoked.
+Each case below shows the question, the verified answer, the verifier's judgment, the pages cited, and the tools the agent invoked.
 
 ## 1. Bu makalenin yazarı kimdir?
 

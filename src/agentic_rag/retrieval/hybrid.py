@@ -28,11 +28,6 @@ class HybridRetriever:
         settings = get_settings()
         self._rrf_k = rrf_k if rrf_k is not None else settings.rrf_k
 
-    @property
-    def components(self) -> list[str]:
-        """Names of the active component retrievers (e.g. ``["bm25", "dense"]``)."""
-        return list(self._retrievers)
-
     @classmethod
     def from_chunks(cls, chunks: list[Chunk]) -> HybridRetriever:
         """Build BM25 + OpenAI dense indexes; degrade to BM25-only if needed.
@@ -45,7 +40,7 @@ class HybridRetriever:
         retrievers: dict[str, Retriever] = {"bm25": BM25Index(chunks)}
         try:
             retrievers["dense"] = OpenAIEmbeddingIndex(chunks)
-        except Exception as exc:  # noqa: BLE001 - degrade gracefully on any embed failure
+        except Exception as exc:
             logger.warning("Dense retrieval unavailable (%s); falling back to BM25-only.", exc)
         return cls(retrievers)
 

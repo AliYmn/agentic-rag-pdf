@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="images/logo-1.png" alt="Agentic RAG over PDF" width="520">
+  <img src="images/logo.png" alt="Agentic RAG over PDF" width="520">
 </p>
 
 <h1 align="center">Agentic RAG over PDF</h1>
@@ -146,6 +146,3 @@ scripts/
 tests/
 eval/
 ```
-<p align="center">
-  <img src="images/logo-2.png" alt="Agentic RAG over PDF" width="520">
-</p>

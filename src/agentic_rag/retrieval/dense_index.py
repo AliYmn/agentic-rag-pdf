@@ -58,7 +58,7 @@ class OpenAIEmbeddingIndex:
         ids = response["ids"][0]
         distances = response["distances"][0]
         results: list[RetrievalResult] = []
-        for chunk_id, distance in zip(ids, distances):
+        for chunk_id, distance in zip(ids, distances, strict=True):
             # cosine distance -> similarity score (only ordering matters for RRF)
             results.append(RetrievalResult(chunk=self._chunks_by_id[chunk_id], score=1.0 - float(distance)))
         return results

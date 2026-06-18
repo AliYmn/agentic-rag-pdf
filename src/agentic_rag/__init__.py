@@ -1,4 +1,4 @@
-"""Agentic RAG over multi-modal PDF documents.
+"""Agentic RAG over multimodal PDF documents.
 
 A small, framework-free prototype that combines hybrid retrieval (BM25 + dense
 OpenAI embeddings) with a tool-calling agent loop on top of the OpenAI API,

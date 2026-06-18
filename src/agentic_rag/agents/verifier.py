@@ -48,7 +48,7 @@ _VERDICT_SCHEMA = {
 
 @dataclass
 class Verdict:
-    """The verifier's structured judgement."""
+    """The verifier's structured judgment."""
 
     supported: bool
     confidence: float

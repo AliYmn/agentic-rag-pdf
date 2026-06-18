@@ -32,6 +32,6 @@ class BM25Index:
         query_tokens = bm25s.tokenize(query, stopwords=[], show_progress=False)
         indices, scores = self._retriever.retrieve(query_tokens, k=k, show_progress=False)
         results: list[RetrievalResult] = []
-        for idx, score in zip(indices[0], scores[0]):
+        for idx, score in zip(indices[0], scores[0], strict=True):
             results.append(RetrievalResult(chunk=self._chunks[int(idx)], score=float(score)))
         return results

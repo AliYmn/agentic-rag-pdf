@@ -9,8 +9,9 @@ observed evidence to a separate verifier.
 from __future__ import annotations
 
 import json
+from collections.abc import Callable
 from dataclasses import dataclass, field
-from typing import Any, Callable
+from typing import Any
 
 from ..llm import chat
 from .tools import ToolResult
@@ -33,8 +34,6 @@ class AgentRun:
 
     answer: str
     trace: list[ToolCall] = field(default_factory=list)
-    iterations: int = 0
-    stopped_early: bool = False
 
 
 def _image_message(images: list[tuple[str, str]]) -> dict[str, Any]:
@@ -73,11 +72,11 @@ def run_tool_loop(
     ]
     trace: list[ToolCall] = []
 
-    for iteration in range(1, max_iterations + 1):
+    for _ in range(max_iterations):
         message = chat(messages=messages, tools=tool_schemas, max_tokens=max_tokens)
 
         if not message.tool_calls:
-            return AgentRun(answer=message.content or "", trace=trace, iterations=iteration)
+            return AgentRun(answer=message.content or "", trace=trace)
 
         # Echo the assistant's tool-call turn back verbatim.
         messages.append(
@@ -114,9 +113,4 @@ def run_tool_loop(
     # Hit the iteration cap: ask once more for a final answer, no tools.
     messages.append({"role": "user", "content": "Stop searching and answer now with what you have."})
     final = chat(messages=messages, max_tokens=max_tokens)
-    return AgentRun(
-        answer=final.content or "",
-        trace=trace,
-        iterations=max_iterations,
-        stopped_early=True,
-    )
+    return AgentRun(answer=final.content or "", trace=trace)

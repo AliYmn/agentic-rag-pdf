@@ -53,9 +53,8 @@ def test_chunking_preserves_page_refs_and_budget(rich_pdf: Path) -> None:
 
 
 def test_chunk_overlap_validation(rich_pdf: Path) -> None:
-    with PdfDocument.open(rich_pdf) as doc:
-        with pytest.raises(ValueError):
-            chunk_document(doc, max_chars=100, overlap=100)
+    with PdfDocument.open(rich_pdf) as doc, pytest.raises(ValueError):
+        chunk_document(doc, max_chars=100, overlap=100)
 
 
 def test_outline_is_jsonable_list(rich_pdf: Path) -> None:

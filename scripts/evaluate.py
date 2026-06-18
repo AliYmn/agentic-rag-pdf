@@ -101,7 +101,7 @@ def _write_transcript(outcomes: list[CaseOutcome], accuracy: float, pdf_path: Pa
         f"- Accuracy: **{accuracy:.0%}** ({sum(o.passed for o in outcomes)}/{len(outcomes)})",
         "",
         "Each case below shows the question, the verified answer, the verifier's "
-        "judgement, the pages cited, and the tools the agent invoked.",
+        "judgment, the pages cited, and the tools the agent invoked.",
         "",
     ]
     for i, o in enumerate(outcomes, 1):

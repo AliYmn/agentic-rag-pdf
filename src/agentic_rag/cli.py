@@ -12,7 +12,7 @@ import argparse
 import dataclasses
 import json
 import sys
-from typing import Sequence
+from collections.abc import Sequence
 
 import openai
 from rich.console import Console
@@ -28,7 +28,7 @@ err_console = Console(stderr=True, style="bold red")
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="agentic-rag",
-        description="Agentic, multi-modal RAG question answering over a PDF.",
+        description="Agentic, multimodal RAG question answering over a PDF.",
     )
     parser.add_argument("--pdf", required=True, help="Path to the PDF document.")
     parser.add_argument("--question", "-q", required=True, help="Question to answer.")

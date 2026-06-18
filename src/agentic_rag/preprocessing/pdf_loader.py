@@ -3,7 +3,7 @@
 Responsibilities:
   * extract per-page text (for chunking + retrieval),
   * expose document metadata and any embedded table of contents,
-  * render an arbitrary page to a base64 PNG on demand (for the multi-modal
+  * render an arbitrary page to a base64 PNG on demand (for the multimodal
     ``view_page`` agent tool — tables/figures/scanned content the text layer
     can't capture).
 """
