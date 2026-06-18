@@ -2,7 +2,7 @@
 
 This note summarizes the most consequential design decisions made while building
 the Agentic RAG over PDF prototype, and the reasoning behind them. The full
-architecture is documented in [docs/architecture.md](docs/architecture.md).
+architecture is documented in [architecture.md](architecture.md).
 
 ## 1. Page viewing as a tool, not a separate visual index
 
