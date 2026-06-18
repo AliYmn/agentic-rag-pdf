@@ -31,6 +31,10 @@ The repository is intentionally compact. The goal is not to provide a generic fr
 - File-backed cross-run memory that can be disabled per invocation
 - Offline test suite and evaluation harness
 
+<p align="center">
+  <img src="images/flow.png" alt="Agentic RAG over PDF">
+</p>
+
 ## Contents
 
 - [Architecture](docs/architecture.md) — system design, component choices, and trade-offs
