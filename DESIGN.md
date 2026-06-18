@@ -12,35 +12,34 @@ metin yetersiz kaldığında (tablo, grafik, şema) sayfayı **görüntü olarak
 inceleyebilir.
 
 ```
-                                   ┌──────────────────────────────────────────┐
-   PDF ─────────┐                  │             Orchestrator Agent            │
-                │                  │       (gpt-4o, araç-çağırma döngüsü)       │
-                ▼                  │                                            │
-        ┌───────────────┐         │   her adımda bir veya daha fazla araç:     │
-        │ Ön İşleme      │         │   ┌─────────┐ ┌──────────┐ ┌────────────┐ │
-        │ (PyMuPDF)      │         │   │ search  │ │view_page │ │get_outline │ │
-        │ • sayfa metni  │         │   └────┬────┘ └────┬─────┘ └─────┬──────┘ │
-        │ • sayfa görsel │         └────────┼───────────┼─────────────┼────────┘
-        │ • JSON outline │                  │           │             │
-        └───────┬───────┘                   ▼           ▼             ▼
-                │                   ┌──────────────┐ ┌────────┐ ┌──────────┐
-                ▼                   │   Hybrid     │ │ Sayfa  │ │ Outline  │
-        ┌───────────────┐          │  Retriever   │ │ → PNG  │ │  (TOC)   │
-        │  Chunking      │ ───────▶ │ BM25 ⊕ Dense │ │(base64)│ │          │
-        │ (sayfa ref'li) │          │   (RRF)      │ └────────┘ └──────────┘
-        └───────────────┘          └──────────────┘
-                                            │  ▲ OpenAI embeddings + ChromaDB
-                                   taslak cevap + kanıt
-                                            ▼
-                                   ┌──────────────────┐    ┌──────────────────┐
-   önceki Q&A  ◀────────────────── │  Verifier Agent  │    │   Memory Store    │
-   (bellek ipucu) ────────────────▶│ (bağımsız çağrı, │    │  (JSONL, görevler │
-                                   │  yapılandırılmış │    │   arası öğrenme)  │
-                                   │  JSON kararı)    │    └──────────────────┘
-                                   └────────┬─────────┘
-                                            ▼
-                                    doğrulanmış cevap
-                                    + atıflar [p.N] + güven skoru
+   ┌────────────────────────────────────────────────────────────┐
+   │ PDF  ->  Ön İşleme (PyMuPDF)                               │
+   │ sayfa metni | sayfa görseli | JSON outline | chunk'lar     │
+   └────────────────────────────────────────────────────────────┘
+                                  ▼
+   ┌────────────────────────────────────────────────────────────┐
+   │ Orchestrator Agent  (gpt-4o, araç-çağırma döngüsü)         │
+   │ araçlar:  search   |   view_page   |   get_outline         │
+   └─────────┬────────────────────┬────────────────────┬────────┘
+             ▼                    ▼                    ▼
+   ┌──────────────────┐ ┌──────────────────┐ ┌──────────────────┐
+   │ Hybrid Retriever │ │ Sayfa -> görsel  │ │ Outline          │
+   │ BM25 + Dense     │ │ (base64, gpt-4o  │ │ (TOC / font      │
+   │ (RRF füzyonu)    │ │  vision)         │ │  sezgisi)        │
+   └──────────────────┘ └──────────────────┘ └──────────────────┘
+               (Hybrid: OpenAI embeddings + ChromaDB)
+                                  ▼
+     taslak cevap + kanıt  (+ ajanın baktığı sayfa görselleri)
+                                  ▼
+   ┌────────────────────────────────────────────────────────────┐
+   │ Verifier Agent  (gpt-4o) -- bağımsız doğrulama             │
+   │ iddiaları kanıta/görsele karşı denetler -> JSON karar      │
+   └────────────────────────────────────────────────────────────┘
+                                  ▼
+        doğrulanmış cevap  +  [p.N] atıflar  +  güven skoru
+
+   Memory Store (JSONL, görevler arası): her Q&A saklanır ->
+   yeni soruda benzer geçmiş hatırlanıp Orchestrator'a ipucu olur.
 ```
 
 ## 1. Belge Ön İşleme
