@@ -1,8 +1,8 @@
-# Technical Note — Two Key Design Decisions
+# Technical Note — Key Design Decisions
 
-This note summarizes the two most consequential design decisions made while
-building the Agentic RAG over PDF prototype, and the reasoning behind them. The
-full architecture is documented in [docs/architecture.md](docs/architecture.md).
+This note summarizes the most consequential design decisions made while building
+the Agentic RAG over PDF prototype, and the reasoning behind them. The full
+architecture is documented in [docs/architecture.md](docs/architecture.md).
 
 ## 1. Page viewing as a tool, not a separate visual index
 
@@ -37,3 +37,15 @@ answer purely against gathered evidence, and it returns a structured verdict
 other code can consume. The trade-off is one extra model call per question —
 more latency and tokens — which is justified because document-grounded
 correctness is the project's primary goal.
+
+## 3. A framework-free agent loop instead of LangChain/LlamaIndex
+
+The tool-calling loop is written by hand rather than on top of an agent
+framework. The assignment explicitly accepts a custom framework, and at this
+scope it is the better fit: it gives direct control over trace capture, the
+iteration cap, attaching rendered page images as follow-up turns, and passing
+exactly the observed evidence to the verifier — without hiding those steps
+behind framework abstractions. It also keeps the dependency surface small and
+the system readable end to end. A heavier framework (LangChain, LlamaIndex)
+would pay off only for a much larger agent system; here it would add cost and
+hidden behavior without a matching benefit.

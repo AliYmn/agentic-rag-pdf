@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="images/logo.png" alt="Agentic RAG over PDF" width="520">
+  <img src="images/logo.png" alt="Agentic RAG over PDF" width="420">
 </p>
 
 <h1 align="center">Agentic RAG over PDF</h1>
