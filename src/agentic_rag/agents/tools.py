@@ -43,7 +43,7 @@ TOOL_SCHEMAS: list[dict[str, Any]] = [
                     "query": {"type": "string", "description": "What to look for."},
                     "k": {
                         "type": "integer",
-                        "description": "How many passages to return (default 6).",
+                        "description": "How many passages to return (default 8).",
                     },
                 },
                 "required": ["query"],
@@ -104,7 +104,7 @@ class ToolContext:
     # the agent then relies on view_page / get_outline instead of search.
     retriever: Retriever | None
     outline: list[OutlineNode]
-    default_k: int = 6
+    default_k: int = 8
     # Evidence the agent actually observed, for downstream verification.
     seen_chunks: dict[str, str] = field(default_factory=dict)  # "[p.N] text"
     viewed_pages: set[int] = field(default_factory=set)

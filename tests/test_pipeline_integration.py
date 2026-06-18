@@ -14,7 +14,7 @@ import pytest
 
 from agentic_rag.agents import base as base_mod
 from agentic_rag.agents import verifier as verifier_mod
-from agentic_rag.agents.pipeline import Pipeline
+from agentic_rag.agents.pipeline import Pipeline, _cited_pages
 from agentic_rag.memory.store import MemoryStore
 from agentic_rag.preprocessing.chunker import Chunk
 from agentic_rag.preprocessing.outline import extract_outline
@@ -68,6 +68,21 @@ def mocked_llm(monkeypatch: pytest.MonkeyPatch) -> None:
 
     monkeypatch.setattr(base_mod, "chat", fake_chat)
     monkeypatch.setattr(verifier_mod, "complete_json", fake_complete_json)
+
+
+@pytest.mark.parametrize(
+    ("answer", "expected"),
+    [
+        ("Tek atıf [p.5].", [5]),
+        ("Birden çok sayfa [p.11, 12].", [11, 12]),
+        ("Aralık [pp.11-13] biçimi.", [11, 12, 13]),
+        ("En-dash aralık [pp.4–6].", [4, 5, 6]),
+        ("Karışık [p.1] ve [p.11, 12] atıflar.", [1, 11, 12]),
+        ("Atıf yok.", []),
+    ],
+)
+def test_cited_pages_parses_all_citation_forms(answer: str, expected: list[int]) -> None:
+    assert sorted(_cited_pages(answer)) == expected
 
 
 def test_pipeline_runs_end_to_end(rich_pdf: Path, tmp_path: Path, mocked_llm: None) -> None:

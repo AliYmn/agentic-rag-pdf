@@ -24,7 +24,28 @@ from .base import ToolCall
 from .orchestrator import Orchestrator
 from .verifier import Verdict, verify
 
-_PAGE_CITATION = re.compile(r"\[p\.(\d+)\]")
+# Citation groups inside an answer: [p.3], [p.11, 12], [pp.11-13] (en-dash too).
+_CITATION_GROUP = re.compile(r"\[pp?\.\s*([0-9,\s–-]+)\]")
+
+
+def _cited_pages(text: str) -> set[int]:
+    """Page numbers cited in ``text``.
+
+    Handles the single (``[p.3]``), multi (``[p.11, 12]``), and range
+    (``[pp.11-13]``) citation forms the model may emit.
+    """
+    pages: set[int] = set()
+    for group in _CITATION_GROUP.findall(text):
+        for part in re.split(r"[,\s]+", group.strip()):
+            if not part:
+                continue
+            if m := re.fullmatch(r"(\d+)[–-](\d+)", part):
+                start, end = int(m.group(1)), int(m.group(2))
+                if start <= end and end - start < 100:  # guard against absurd ranges
+                    pages.update(range(start, end + 1))
+            elif part.isdigit():
+                pages.add(int(part))
+    return pages
 
 
 @dataclass
@@ -120,7 +141,7 @@ class Pipeline:
     @staticmethod
     def _collect_pages(answer: str, orchestrator: Orchestrator) -> list[int]:
         """Pages cited in the answer, plus any pages the agent viewed."""
-        cited = {int(m) for m in _PAGE_CITATION.findall(answer)}
+        cited = _cited_pages(answer)
         cited |= orchestrator.context.viewed_pages
         return sorted(cited)
 

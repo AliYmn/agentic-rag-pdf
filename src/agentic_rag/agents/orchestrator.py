@@ -35,7 +35,7 @@ class Orchestrator:
         retriever: Retriever | None,
         outline: list[OutlineNode],
         *,
-        default_k: int = 6,
+        default_k: int = 8,
     ) -> None:
         self._ctx = ToolContext(
             doc=doc,

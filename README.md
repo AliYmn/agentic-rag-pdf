@@ -32,6 +32,7 @@ The repository is intentionally compact. The goal is not to provide a generic fr
 ## Contents
 
 - [Architecture](docs/architecture.md) — system design, component choices, and trade-offs
+- [Technical note](TECHNICAL_NOTE.md) — the two most important design decisions and their rationale
 - [CLI demo](docs/demo.md) — representative commands, traces, and screenshots
 - [Evaluation results](docs/demo_output.md) — generated benchmark transcript
 
