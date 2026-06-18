@@ -1,4 +1,12 @@
-# Agentic RAG over PDF
+<p align="center">
+  <img src="images/logo.png" alt="Agentic RAG over PDF" width="520">
+</p>
+
+<h1 align="center">Agentic RAG over PDF</h1>
+
+<p align="center">
+  Agentic, multimodal question answering for long PDF documents.
+</p>
 
 Agentic RAG over PDF is a small, inspectable question-answering system for long PDF documents. It combines hybrid retrieval, structural navigation, targeted page rendering, and an independent verification step so that answers can stay grounded in document evidence rather than raw model recall.
 
@@ -13,16 +21,11 @@ The repository is intentionally compact. The goal is not to provide a generic fr
 - File-backed cross-run memory that can be disabled per invocation
 - Offline test suite and evaluation harness
 
-## Documentation
+## Contents
 
-The main documentation now lives under [`docs/`](docs/README.md):
-
-- [Documentation index](docs/README.md)
-- [Architecture & design rationale](docs/architecture.md)
-- [CLI demo with screenshots](docs/demo.md)
-- [Evaluation transcript](docs/demo_output.md)
-
-The root-level [DESIGN.md](DESIGN.md) is kept as a compatibility entry point for the original assignment deliverable and points to the canonical architecture document.
+- [Architecture](docs/architecture.md) — system design, component choices, and trade-offs
+- [CLI demo](docs/demo.md) — representative commands, traces, and screenshots
+- [Evaluation results](docs/demo_output.md) — generated benchmark transcript
 
 ## Requirements
 
@@ -115,7 +118,6 @@ src/agentic_rag/
   memory/
   cli.py
 docs/
-  README.md
   architecture.md
   demo.md
   demo_output.md
