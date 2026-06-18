@@ -11,6 +11,8 @@
 <p align="center">
   <a href="docs/architecture.md">Architecture</a>
   ·
+  <a href="docs/TECHNICAL_NOTE.md">Technical Note</a>
+  ·
   <a href="docs/demo.md">CLI Demo</a>
   ·
   <a href="docs/demo_output.md">Evaluation</a>
@@ -32,7 +34,7 @@ The repository is intentionally compact. The goal is not to provide a generic fr
 ## Contents
 
 - [Architecture](docs/architecture.md) — system design, component choices, and trade-offs
-- [Technical note](TECHNICAL_NOTE.md) — the most important design decisions and their rationale
+- [Technical note](docs/TECHNICAL_NOTE.md) — the most important design decisions and their rationale
 - [CLI demo](docs/demo.md) — representative commands, traces, and screenshots
 - [Evaluation results](docs/demo_output.md) — generated benchmark transcript
 
