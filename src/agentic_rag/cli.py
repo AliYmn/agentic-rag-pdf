@@ -65,7 +65,7 @@ def _render_human(result: AnswerResult, *, show_trace: bool) -> None:
     if show_trace and result.trace:
         console.print("\n[dim]Tool trace:[/]")
         for i, call in enumerate(result.trace, 1):
-            console.print(f"  [dim]{i}. {call.name}({json.dumps(call.input)})[/]")
+            console.print(f"  [dim]{i}. {call.name}({json.dumps(call.input, ensure_ascii=False)})[/]")
 
 
 def _render_json(result: AnswerResult) -> None:
